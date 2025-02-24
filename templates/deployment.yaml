@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-questions
+spec:
+  replicas: {{ .Values.api.replicaCount }}
+  selector:
+    matchLabels:
+      app: api-questions
+  template:
+    metadata:
+      labels:
+        app: api-questions
+    spec:
+      containers:
+        - name: api-questions
+          image: {{ .Values.api.image.repository }}:{{ .Values.api.image.tag }}
+          ports:
+            - containerPort: 8000
+          env:
+            - name: DB_HOST
+              value: {{ if .Values.postgresql.enabled }}postgresql-service{{ else }}{{ .Values.externalDatabase.host }}{{ end }}
+            - name: DB_USER
+              value: {{ if .Values.postgresql.enabled }}{{ .Values.postgresql.postgresqlUsername }}{{ else }}{{ .Values.externalDatabase.user }}{{ end }}
+            - name: DB_PASSWORD
+              value: {{ if .Values.postgresql.enabled }}{{ .Values.postgresql.postgresqlPassword }}{{ else }}{{ .Values.externalDatabase.password }}{{ end }}

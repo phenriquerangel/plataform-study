@@ -1,0 +1,16 @@
+global:
+  storageClass: ""
+
+auth:
+  username: postgres
+  password: password
+  database: questions
+  enablePostgresUser: true
+
+primary:
+  persistence:
+    enabled: true
+    size: 1Gi
+
+replica:
+  replicaCount: 1
