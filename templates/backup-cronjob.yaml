@@ -1,0 +1,47 @@
+{{- if .Values.backup.enabled -}}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: postgresql-backup
+  labels:
+    app: api-questions
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+spec:
+  schedule: {{ .Values.backup.schedule | quote }}
+  successfulJobsHistoryLimit: {{ .Values.backup.retention }}
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: backup
+            image: bitnami/postgresql:{{ .Values.postgresql.image.tag }}
+            command:
+            - /bin/sh
+            - -c
+            - |
+              pg_dump -h {{ .Release.Name }}-postgresql -U $PGUSER -d {{ .Values.postgresql.auth.database }} | gzip > /backups/{{ .Values.postgresql.auth.database }}-$(date +%Y%m%d-%H%M%S).sql.gz
+              # Limpar backups antigos
+              find /backups -name "*.sql.gz" -type f -mtime +{{ .Values.backup.retention }} -delete
+            env:
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.postgresql.auth.existingSecret }}
+                  key: {{ .Values.postgresql.auth.secretKeys.userPasswordKey }}
+            - name: PGUSER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.postgresql.auth.existingSecret }}
+                  key: username
+            volumeMounts:
+            - name: backup-volume
+              mountPath: /backups
+          volumes:
+          - name: backup-volume
+            persistentVolumeClaim:
+              claimName: postgresql-backup-pvc
+          restartPolicy: OnFailure
+{{- end }}

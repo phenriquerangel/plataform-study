@@ -1,0 +1,44 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: api-questions-network-policy
+  labels:
+    app: api-questions
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+spec:
+  podSelector:
+    matchLabels:
+      app: api-questions
+      release: "{{ .Release.Name }}"
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    {{- if .Values.ingress.enabled }}
+    - podSelector:
+        matchLabels:
+          app.kubernetes.io/name: ingress-nginx
+    {{- else }}
+    - namespaceSelector: {}
+    {{- end }}
+    ports:
+    - protocol: TCP
+      port: 8000
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          app: postgresql
+    ports:
+    - protocol: TCP
+      port: 5432
+  # Permitir DNS
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: kube-system
+    ports:
+    - protocol: UDP
+      port: 53

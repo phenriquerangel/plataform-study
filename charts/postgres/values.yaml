@@ -1,16 +1,25 @@
-global:
-  storageClass: ""
+api:
+  replicaCount: 2
+  image:
+    repository: yourdockerhub/api-questions
+    tag: latest
+  service:
+    type: ClusterIP
+    port: 80
 
-auth:
-  username: postgres
-  password: password
-  database: questions
-  enablePostgresUser: true
-
-primary:
+postgresql:
+  enabled: true
+  postgresqlUsername: postgres
+  postgresqlPassword: password
+  postgresqlDatabase: questions
   persistence:
     enabled: true
     size: 1Gi
 
-replica:
-  replicaCount: 1
+externalDatabase:
+  enabled: false
+  host: external-db-host
+  port: 5432
+  user: external-user
+  password: external-password
+  database: external-db
