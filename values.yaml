@@ -2,24 +2,99 @@ api:
   replicaCount: 2
   image:
     repository: yourdockerhub/api-questions
-    tag: latest
+    tag: "1.0.0"  # Versão fixa em vez de latest
   service:
     type: ClusterIP
     port: 80
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+  livenessProbe:
+    httpGet:
+      path: /health
+      port: 8000
+    initialDelaySeconds: 30
+    periodSeconds: 10
+  readinessProbe:
+    httpGet:
+      path: /ready
+      port: 8000
+    initialDelaySeconds: 5
+    periodSeconds: 5
 
+# Configuração do PostgreSQL usando a dependência do Bitnami
 postgresql:
   enabled: true
-  postgresqlUsername: postgres
-  postgresqlPassword: password
-  postgresqlDatabase: questions
-  persistence:
-    enabled: true
-    size: 1Gi
+  image:
+    tag: "14.5.0"  # Versão fixa em vez de latest
+  auth:
+    # Não armazenar credenciais em texto plano
+    # Estas serão substituídas por secrets externos
+    existingSecret: "db-credentials"
+    secretKeys:
+      adminPasswordKey: "postgres-password"
+      userPasswordKey: "user-password"
+    username: "app_user"
+    database: "questions"
+  primary:
+    persistence:
+      enabled: true
+      size: 1Gi
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 1Gi
+    configuration: |
+      max_connections = 100
+      shared_buffers = 256MB
+      effective_cache_size = 768MB
+      maintenance_work_mem = 64MB
+      checkpoint_completion_target = 0.9
+      wal_buffers = 7864kB
+      default_statistics_target = 100
+      random_page_cost = 1.1
+      effective_io_concurrency = 200
+      work_mem = 2621kB
+      min_wal_size = 1GB
+      max_wal_size = 4GB
 
+# Configuração para banco de dados externo (desabilitado por padrão)
 externalDatabase:
   enabled: false
   host: external-db-host
   port: 5432
   user: external-user
-  password: external-password
+  existingSecret: "external-db-credentials"
   database: external-db
+
+# Configuração de ingress
+ingress:
+  enabled: false
+  className: "nginx"
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  hosts:
+    - host: api.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: api-tls
+      hosts:
+        - api.example.com
+
+# Configuração de backup
+backup:
+  enabled: true
+  schedule: "0 1 * * *"  # Todos os dias à 1h da manhã
+  retention: 7  # Manter backups por 7 dias
+  storage:
+    size: 5Gi

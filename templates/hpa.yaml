@@ -2,12 +2,16 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: api-questions-hpa
+  labels:
+    app: api-questions
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
     name: api-questions
-  minReplicas: 2
+  minReplicas: {{ .Values.api.replicaCount }}
   maxReplicas: 10
   metrics:
     - type: Resource
