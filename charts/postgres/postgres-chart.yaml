@@ -1,0 +1,9 @@
+apiVersion: v2
+name: postgresql
+description: PostgreSQL chart for API Questions platform
+version: 0.1.0
+appVersion: "14.5.0"
+type: application
+maintainers:
+  - name: Pedro Henrique Rangel
+    email: exemplo@email.com

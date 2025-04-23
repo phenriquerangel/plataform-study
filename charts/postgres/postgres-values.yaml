@@ -1,0 +1,34 @@
+enabled: true
+image:
+  tag: "14.5.0"
+auth:
+  username: "app_user"
+  database: "questions"
+  existingSecret: "db-credentials"
+  secretKeys:
+    adminPasswordKey: "postgres-password"
+    userPasswordKey: "user-password"
+primary:
+  persistence:
+    enabled: true
+    size: 1Gi
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 1Gi
+  configuration: |
+    max_connections = 100
+    shared_buffers = 256MB
+    effective_cache_size = 768MB
+    maintenance_work_mem = 64MB
+    checkpoint_completion_target = 0.9
+    wal_buffers = 7864kB
+    default_statistics_target = 100
+    random_page_cost = 1.1
+    effective_io_concurrency = 200
+    work_mem = 2621kB
+    min_wal_size = 1GB
+    max_wal_size = 4GB
