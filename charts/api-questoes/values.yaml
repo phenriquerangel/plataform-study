@@ -1,0 +1,15 @@
+replicaCount: 1
+
+image:
+  repository: phenriquerangel/api-questoes
+  tag: latest
+  pullPolicy: Always
+
+service:
+  type: ClusterIP
+  port: 8000
+
+resources: {}
+
+ingress:
+  enabled: false

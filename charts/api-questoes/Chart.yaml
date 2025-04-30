@@ -1,0 +1,6 @@
+apiVersion: v2
+name: api-questoes
+description: API para gestão de questões de prova
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
