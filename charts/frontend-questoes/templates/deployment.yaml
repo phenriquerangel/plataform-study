@@ -20,4 +20,4 @@ spec:
             - containerPort: 80
           env:
             - name: API_URL
-              value: "http://api-questoes.api-questoes.svc.cluster.local/api"
+              value: "http://api-questoes.api-questoes.svc.cluster.local/docs"
