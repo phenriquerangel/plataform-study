@@ -1,8 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app import models, schemas, database
+from prometheus_client import Counter
 
 router = APIRouter(prefix="/questoes", tags=["Questoes"])
+questoes_criadas = Counter("questoes_criadas_total", "Total de questões criadas")
 
 def get_db():
     db = database.SessionLocal()
@@ -13,6 +15,7 @@ def get_db():
 
 @router.post("/", response_model=schemas.QuestaoOut)
 def criar_questao(questao: schemas.QuestaoCreate, db: Session = Depends(get_db)):
+    questoes_criadas.inc()
     db_questao = models.Questao(**questao.dict())
     db.add(db_questao)
     db.commit()

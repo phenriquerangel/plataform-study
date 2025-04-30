@@ -4,3 +4,4 @@ sqlalchemy
 psycopg2-binary
 pdfkit
 jinja2
+prometheus_client
