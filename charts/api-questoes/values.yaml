@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: phenriquerangel/api-questoes
+  repository: phenriquernagel/api-questoes
   tag: latest
   pullPolicy: Always
 
