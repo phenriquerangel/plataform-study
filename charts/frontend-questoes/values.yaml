@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: phenriquerangel/frontend-questoes
+  repository: phenriquernagel/frontend-questoes
   tag: latest
   pullPolicy: Always
 
