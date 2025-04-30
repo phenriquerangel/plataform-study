@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: phenriquerangel/api-questoes
+  repository: phenriquernagel/api-questoes
   tag: latest
   pullPolicy: Always
 
@@ -9,12 +9,12 @@ service:
   type: ClusterIP
   port: 8000
 
+resources: {}
+
 postgres:
   user: postgres
   password: postgres
   db: questoes
-
-resources: {}
 
 ingress:
   enabled: false
