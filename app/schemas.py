@@ -11,6 +11,5 @@ class QuestaoCreate(BaseModel):
 
 class QuestaoOut(QuestaoCreate):
     id: int
-
     class Config:
         orm_mode = True
