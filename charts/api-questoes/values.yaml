@@ -11,7 +11,7 @@ service:
 
 postgres:
   user: appuser
-  password: pedro@123
+  password: pedro123
   db: questoes
 
 rbac:
