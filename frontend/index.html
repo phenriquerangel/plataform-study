@@ -67,9 +67,12 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       });
-      await res.json();
-      document.getElementById('mensagem').innerText = 'Questão criada com sucesso!';
-      document.getElementById('formQuestao').reset();
+      if (res.ok) {
+        document.getElementById('mensagem').innerText = 'Questão criada com sucesso!';
+        document.getElementById('formQuestao').reset();
+      } else {
+        document.getElementById('mensagem').innerText = 'Erro ao criar questão.';
+      }
     }
 
     async function carregarQuestoes() {
