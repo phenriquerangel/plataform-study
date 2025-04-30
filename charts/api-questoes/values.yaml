@@ -10,7 +10,7 @@ service:
   port: 80
 
 postgres:
-  user: appuser
+  user: postgres
   password: pedro123
   db: questoes
 
