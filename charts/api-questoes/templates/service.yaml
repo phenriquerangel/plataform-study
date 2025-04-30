@@ -3,9 +3,10 @@ kind: Service
 metadata:
   name: api-questoes
 spec:
-  type: ClusterIP
+  type: {{ .Values.service.type }}
   selector:
     app: api-questoes
   ports:
-    - port: 8000
+    - protocol: TCP
+      port: {{ .Values.service.port }}
       targetPort: 8000
