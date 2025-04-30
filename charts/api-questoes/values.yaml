@@ -2,25 +2,14 @@ replicaCount: 1
 
 image:
   repository: phenriquernagel/api-questoes
+  tag: latest
   pullPolicy: Always
-  tag: "latest"
 
 service:
   type: ClusterIP
-  port: 80
+  port: 8000
 
-postgres:
-  user: postgres
-  password: pedro123
-  db: questoes
+resources: {}
 
-rbac:
-  create: true
-
-resources:
-  limits:
-    cpu: 500m
-    memory: 512Mi
-  requests:
-    cpu: 100m
-    memory: 128Mi
+ingress:
+  enabled: false
