@@ -1,4 +1,4 @@
-name: Build and Push Docker Image
+name: Build and Push Docker Images
 
 on:
   push:
@@ -22,9 +22,20 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build e push da imagem
+      - name: Build e push da imagem da API
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/api-questoes:latest,${{ secrets.DOCKERHUB_USERNAME }}/api-questoes:${{ github.sha }}
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/api-questoes:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/api-questoes:${{ github.sha }}
+
+      - name: Build e push da imagem do Frontend
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          push: true
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/frontend-questoes:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/frontend-questoes:${{ github.sha }}
