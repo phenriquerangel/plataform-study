@@ -12,8 +12,6 @@ spec:
       labels:
         app: api-questoes
     spec:
-      imagePullSecrets:
-        - name: dockerhub-secret
       containers:
         - name: api-questoes
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
