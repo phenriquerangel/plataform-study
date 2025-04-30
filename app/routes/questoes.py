@@ -25,3 +25,13 @@ def criar_questao(questao: schemas.QuestaoCreate, db: Session = Depends(get_db))
 @router.get("/", response_model=list[schemas.QuestaoOut])
 def listar_questoes(db: Session = Depends(get_db)):
     return db.query(models.Questao).all()
+
+
+@router.delete("/{questao_id}")
+def deletar_questao(questao_id: int, db: Session = Depends(get_db)):
+    questao = db.query(models.Questao).filter(models.Questao.id == questao_id).first()
+    if not questao:
+        raise HTTPException(status_code=404, detail="Questão não encontrada")
+    db.delete(questao)
+    db.commit()
+    return {"ok": True}
