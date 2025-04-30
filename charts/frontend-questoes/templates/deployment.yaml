@@ -15,5 +15,9 @@ spec:
       containers:
         - name: frontend
           image: phenriquernagel/frontend-questoes:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
+          env:
+            - name: API_URL
+              value: "http://api-questoes.api-questoes.svc.cluster.local/api"
