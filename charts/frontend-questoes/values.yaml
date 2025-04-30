@@ -1,13 +1,10 @@
 replicaCount: 1
 
 image:
-  repository: phenriquernagel/frontend-questoes
+  repository: phenriquerangel/frontend-questoes
   tag: latest
   pullPolicy: Always
 
 service:
   type: ClusterIP
   port: 80
-
-ingress:
-  enabled: false
