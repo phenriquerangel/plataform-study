@@ -1,1 +1,30 @@
-# Deployment da API com PVC e volumeMounts corretos
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-questoes
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: api-questoes
+  template:
+    metadata:
+      labels:
+        app: api-questoes
+    spec:
+      containers:
+        - name: api-questoes
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 8000
+          env:
+            - name: DATABASE_URL
+              value: "postgresql://{{ .Values.postgres.user }}:{{ .Values.postgres.password }}@postgres:5432/{{ .Values.postgres.db }}"
+          volumeMounts:
+            - mountPath: /pdfs
+              name: shared-pdf-volume
+      volumes:
+        - name: shared-pdf-volume
+          persistentVolumeClaim:
+            claimName: shared-pdf-pvc
