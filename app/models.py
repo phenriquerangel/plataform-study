@@ -1,14 +1,14 @@
 from sqlalchemy import Column, Integer, String
-from .database import Base
+from app.database import Base
 
 class Questao(Base):
     __tablename__ = "questoes"
 
     id = Column(Integer, primary_key=True, index=True)
-    texto = Column(String(1000))
-    a = Column(String(100))
-    b = Column(String(100))
-    c = Column(String(100))
-    d = Column(String(100))
-    resposta = Column(String(1))
-    origem = Column(String(7))
+    texto = Column(String(1000), nullable=False)
+    a = Column(String(100), nullable=False)
+    b = Column(String(100), nullable=False)
+    c = Column(String(100), nullable=False)
+    d = Column(String(100), nullable=False)
+    resposta = Column(String(1), nullable=False)
+    origem = Column(String(7), nullable=False)
