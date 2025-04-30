@@ -11,5 +11,9 @@ service:
 
 resources: {}
 
+postgres:
+  user: postgres
+  password: pedro123
+  db: questoes
 ingress:
   enabled: false
