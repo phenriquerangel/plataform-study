@@ -83,7 +83,7 @@ export default function Cadastro() {
     <form onSubmit={handleSubmit} className="p-6 space-y-4 max-w-xl mx-auto">
       <h1 className="text-xl font-bold">Nova Questão</h1>
       {mensagem && (
-        <div className={\`text-center font-semibold \${tipo === "erro" ? "text-red-600" : "text-green-700"}\`}>
+        <div className={`text-center font-semibold \${tipo === "erro" ? "text-red-600" : "text-green-700"}`}>
           {mensagem}
         </div>
       )}
