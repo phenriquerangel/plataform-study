@@ -8,7 +8,7 @@ service:
   type: ClusterIP
   port: 8000
 env:
-  POSTGRES_HOST: "postgres.backend.svc.cluster.local"
+  POSTGRES_HOST: "postgres-postgresql.backend.svc.cluster.local"
   POSTGRES_PORT: "5432"
   POSTGRES_DB: "questoes"
   POSTGRES_USER: "questuser"
