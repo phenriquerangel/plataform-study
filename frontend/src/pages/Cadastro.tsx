@@ -1,6 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
 
+const API = import.meta.env.VITE_API_URL || "http://localhost:8000";
+
 export default function Cadastro() {
   const [texto, setTexto] = useState("");
   const [origem, setOrigem] = useState("");
@@ -18,11 +20,11 @@ export default function Cadastro() {
       if (imagem) {
         const formData = new FormData();
         formData.append("file", imagem);
-        const res = await axios.post("http://localhost:8000/upload-imagem/", formData);
+        const res = await axios.post(`${API}/upload-imagem/`, formData);
         imagem_url = res.data.url;
       }
 
-      await axios.post("http://localhost:8000/questoes/", {
+      await axios.post(`${API}/questoes/`, {
         texto,
         origem,
         resposta_correta: correta,

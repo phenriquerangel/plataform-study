@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+const API = import.meta.env.VITE_API_URL || "http://localhost:8000";
+
 interface Opcao {
   texto: string;
 }
@@ -19,19 +21,19 @@ export default function Lista() {
   const [pdfUrl, setPdfUrl] = useState("");
 
   const carregar = () =>
-    axios.get("http://localhost:8000/questoes/").then(res => setQuestoes(res.data));
+    axios.get(`${API}/questoes/`).then(res => setQuestoes(res.data));
 
   useEffect(() => {
     carregar();
   }, []);
 
   const excluir = async (id: string) => {
-    await axios.delete(`http://localhost:8000/questoes/${id}`);
+    await axios.delete(`${API}/questoes/${id}`);
     carregar();
   };
 
   const gerarPDF = async () => {
-    const res = await axios.post("http://localhost:8000/exportar-pdf/", selecionadas, {
+    const res = await axios.post(`${API}/exportar-pdf/`, selecionadas, {
       responseType: "blob"
     });
     const url = window.URL.createObjectURL(new Blob([res.data]));
