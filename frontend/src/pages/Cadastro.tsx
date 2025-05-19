@@ -16,7 +16,9 @@ export default function Cadastro() {
     setMensagem("");
 
     try {
-      let imagem_url = undefined;
+      let imagem_url: string | null = null;
+
+      // Só faz upload se tiver imagem
       if (imagem) {
         const formData = new FormData();
         formData.append("file", imagem);
@@ -24,23 +26,27 @@ export default function Cadastro() {
         imagem_url = res.data.url;
       }
 
-      await axios.post(`${API}/questoes/`, {
+      const payload = {
         texto,
         origem,
         resposta_correta: correta,
         imagem_url,
         opcoes: opcoes.map(texto => ({ texto }))
-      });
+      };
 
-      setMensagem("Questão cadastrada com sucesso!");
+      console.log("Enviando payload:", payload);
+
+      await axios.post(`${API}/questoes/`, payload);
+
+      setMensagem("✅ Questão cadastrada com sucesso!");
       setTexto("");
       setOrigem("");
       setOpcoes(["", "", "", ""]);
       setCorreta(0);
       setImagem(null);
     } catch (err) {
-      console.error(err);
-      setMensagem("Erro ao cadastrar questão. Verifique os campos.");
+      console.error("Erro ao cadastrar:", err);
+      setMensagem("❌ Erro ao cadastrar questão. Verifique os campos.");
     }
   };
 
