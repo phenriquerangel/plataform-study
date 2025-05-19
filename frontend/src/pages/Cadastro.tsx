@@ -90,7 +90,7 @@ export default function Cadastro() {
       <textarea required value={texto} className="w-full border p-2" placeholder="Texto da questão" onChange={e => setTexto(e.target.value)} />
       <input required maxLength={7} value={origem} className="w-full border p-2" placeholder="Origem (ex: MAT2024)" onChange={e => setOrigem(e.target.value)} />
       {opcoes.map((o, i) => (
-        <input key={i} value={o} className="w-full border p-2" placeholder={\`Opção \${String.fromCharCode(65 + i)}`} onChange={e => {
+        <input key={i} value={o} className="w-full border p-2" placeholder={`Opção \${String.fromCharCode(65 + i)}`} onChange={e => {
           const nova = [...opcoes];
           nova[i] = e.target.value;
           setOpcoes(nova);
