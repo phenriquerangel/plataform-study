@@ -29,7 +29,8 @@ function App() {
 
       <main className="max-w-4xl mx-auto px-4">
         {tela === "lista" && <Lista />}
-        {tela === "cadastro" && <Cadastro />}
+        {tela === "cadastro" && <Cadastro />},
+        {tela === "monitoring" && <Monitoring />}
       </main>
     </div>
   );

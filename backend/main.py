@@ -178,3 +178,19 @@ def exportar_pdf(ids: List[str], db: Session = Depends(get_db)):
     path = os.path.join(temp_dir, "lista_questoes.pdf")
     pdf.output(path)
     return FileResponse(path, media_type='application/pdf', filename="lista_questoes.pdf")
+
+@app.get("/monitorar")
+def monitorar():
+    try:
+        db.execute(text("SELECT 1"))
+        db_ok = True
+    except:
+        db_ok = False
+
+    try:
+        s3_client.list_buckets()
+        minio_ok = True
+    except:
+        minio_ok = False
+
+    return {"api": True, "db": db_ok, "minio": minio_ok}
