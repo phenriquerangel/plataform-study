@@ -1,8 +1,7 @@
 FROM node:20 AS builder
 WORKDIR /app
 COPY . .
-RUN npm install && npm run build && npm install @opentelemetry/api @opentelemetry/sdk-trace-web @opentelemetry/exporter-trace-otlp-http
-
+RUN npm install @opentelemetry/api @opentelemetry/sdk-trace-web @opentelemetry/exporter-trace-otlp-http && npm run build 
 
 FROM nginx:alpine
 COPY --from=builder /app/dist /usr/share/nginx/html
