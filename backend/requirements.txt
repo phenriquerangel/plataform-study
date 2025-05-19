@@ -1,4 +1,8 @@
+
 fastapi
 uvicorn
+boto3
 sqlalchemy
 psycopg2-binary
+python-multipart
+fpdf
