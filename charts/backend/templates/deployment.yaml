@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: "phenriquernagel/questoes-backend:latest"
+          ports:
+            - containerPort: 8000
+          env:
+            - name: POSTGRES_HOST
+              value: "postgres.backend.svc.cluster.local"
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: POSTGRES_DB
+              value: "questoes"
+            - name: POSTGRES_USER
+              value: "questuser"
+            - name: POSTGRES_PASSWORD
+              value: "questpass"
