@@ -20,7 +20,7 @@ spec:
             - containerPort: 8000
           env:
             - name: POSTGRES_HOST
-              value: "postgres.backend.svc.cluster.local"
+              value: "postgres-postgresql.backend.svc.cluster.local"
             - name: POSTGRES_PORT
               value: "5432"
             - name: POSTGRES_DB
