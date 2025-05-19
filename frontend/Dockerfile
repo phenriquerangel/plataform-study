@@ -1,5 +1,12 @@
-FROM python:3.10-slim
+
+# Etapa de build
+FROM node:20 AS builder
 WORKDIR /app
 COPY . .
-RUN pip install -r requirements.txt
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+RUN npm install && npm run build
+
+# Etapa de produção
+FROM nginx:alpine
+COPY --from=builder /app/dist /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
