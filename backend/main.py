@@ -20,7 +20,7 @@ MINIO_SECRET_KEY = "minioadmin"
 MINIO_BUCKET = "questoes"
 
 # Configuração DB
-DB_HOST = os.getenv("POSTGRES_HOST", "postgres.backend.svc.cluster.local")
+DB_HOST = os.getenv("POSTGRES_HOST", "postgres-postgresql.backend.svc.cluster.local")
 DB_PORT = os.getenv("POSTGRES_PORT", "5432")
 DB_NAME = os.getenv("POSTGRES_DB", "questoes")
 DB_USER = os.getenv("POSTGRES_USER", "questuser")
