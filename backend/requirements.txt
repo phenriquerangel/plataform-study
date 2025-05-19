@@ -6,8 +6,3 @@ sqlalchemy
 psycopg2-binary
 python-multipart
 fpdf
-opentelemetry-api
-opentelemetry-sdk
-opentelemetry-instrumentation-fastapi
-opentelemetry-instrumentation-requests
-opentelemetry-exporter-otlp-proto-http

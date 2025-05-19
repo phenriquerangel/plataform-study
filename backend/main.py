@@ -14,7 +14,6 @@ import tempfile
 from fpdf import FPDF
 from botocore.exceptions import BotoCoreError, NoCredentialsError
 
-
 # Configurações MinIO
 MINIO_ENDPOINT = "http://minio.minio.svc.cluster.local:9000"
 MINIO_ACCESS_KEY = "minioadmin"
