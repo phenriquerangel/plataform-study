@@ -1,9 +1,10 @@
 import { useState } from "react";
 import Lista from "./pages/Lista";
 import Cadastro from "./pages/Cadastro";
+import Monitoring from "./pages/Monitoring";
 
 function App() {
-  const [tela, setTela] = useState<"lista" | "cadastro">("lista");
+  const [tela, setTela] = useState<"lista" | "cadastro" | "monitoring">("lista");
 
   return (
     <div className="min-h-screen bg-gray-100 text-gray-900">
@@ -23,13 +24,19 @@ function App() {
             >
               Cadastrar
             </button>
+            <button
+              onClick={() => setTela("monitoring")}
+              className={`px-4 py-2 rounded ${tela === "monitoring" ? "bg-blue-600 text-white" : "bg-gray-200"}`}
+            >
+              Monitoramento
+            </button>
           </div>
         </div>
       </nav>
 
       <main className="max-w-4xl mx-auto px-4">
         {tela === "lista" && <Lista />}
-        {tela === "cadastro" && <Cadastro />},
+        {tela === "cadastro" && <Cadastro />}
         {tela === "monitoring" && <Monitoring />}
       </main>
     </div>

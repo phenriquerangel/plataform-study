@@ -3,7 +3,7 @@ replicaCount: 1
 image:
   repository: phenriquernagel/questoes-backend
   tag: latest
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 service:
   type: ClusterIP
   port: 8000

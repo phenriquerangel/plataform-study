@@ -12,6 +12,8 @@ from botocore.client import Config
 import os
 import tempfile
 from fpdf import FPDF
+from botocore.exceptions import BotoCoreError, NoCredentialsError
+
 
 # Configurações MinIO
 MINIO_ENDPOINT = "http://minio.minio.svc.cluster.local:9000"
@@ -181,16 +183,31 @@ def exportar_pdf(ids: List[str], db: Session = Depends(get_db)):
 
 @app.get("/monitorar")
 def monitorar():
+    db_ok = False
+    minio_ok = False
+
+    # Testa banco de dados
     try:
         db.execute(text("SELECT 1"))
         db_ok = True
     except:
         db_ok = False
 
+    # Testa MinIO
     try:
+        s3_client = boto3.client(
+            "s3",
+            endpoint_url=MINIO_ENDPOINT,
+            aws_access_key_id=MINIO_ACCESS_KEY,
+            aws_secret_access_key=MINIO_SECRET_KEY,
+        )
         s3_client.list_buckets()
         minio_ok = True
-    except:
+    except (BotoCoreError, NoCredentialsError, Exception):
         minio_ok = False
 
-    return {"api": True, "db": db_ok, "minio": minio_ok}
+    return {
+        "api": True,
+        "db": db_ok,
+        "minio": minio_ok
+    }
