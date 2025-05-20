@@ -1,16 +1,7 @@
-# Etapa de build
-FROM node:20 AS builder
+FROM python:3.11-slim
 WORKDIR /app
-
-# Copia todos os arquivos para dentro do container
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
-
-# Garante que o .env está presente e dependências estejam instaladas antes do build
-RUN npm install
-RUN npm run build
-
-# Etapa de produção
-FROM nginx:alpine
-COPY --from=builder /app/dist /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+EXPOSE 8501
+CMD ["streamlit", "run", "main.py", "--server.port=8501", "--server.address=0.0.0.0"]

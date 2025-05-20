@@ -1,24 +1,12 @@
+replicaCount: 1
 
 image:
   repository: phenriquernagel/questoes-frontend
   tag: latest
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
 
 service:
   type: ClusterIP
-  port: 80
+  port: 8501
 
-ingress:
-  enabled: true
-  className: "nginx"
-  annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-dev"
-  hosts:
-    - host: frontend.local
-      paths:
-        - path: /
-          pathType: Prefix
-  tls:
-    - secretName: frontend-tls
-      hosts:
-        - frontend.local
+resources: {}
